@@ -6,25 +6,13 @@ from joblib import load
 from sklearn.preprocessing import MinMaxScaler
 
 
-df = pd.read_csv('dataset.txt', delimiter = "|")
-
-#@app.route('/')
-#def hello_world():
-#    scaler = prepare_data(df)
-#    data = [[0,100,3,150],[0,150,5,200]]
-#    data = scaler.transform(data).tolist()
-#    data[0].extend([1,0,0,0])
-#    data[1].extend([1,0,0,0])
-#    model = load('model.joblib')
-#    predictions = model.predict(data)
-#    return str(predictions)
-
+df = pd.read_csv('app/dataset.txt', delimiter = "|")
 
 @app.route('/',methods=['GET','POST'])
 def hello_world():
     request_type = request.method
     if(request_type=='GET'):
-        return render_template('index.html',href = 'static/bordeaux.jpg')
+        return render_template('index.html',href = 'app/static/bordeaux.jpg')
     else:
         scaler = prepare_data(df)
         text = request.form['text']
@@ -32,7 +20,7 @@ def hello_world():
         data = scaler.transform([list_data,list_data]).tolist()
         data[0].extend([1,0,0,0])
         data[1].extend([1,0,0,0])
-        model = load('model.joblib')
+        model = load('app/model.joblib')
         predictions = int(model.predict(data)[0])
 
         return str(predictions)
